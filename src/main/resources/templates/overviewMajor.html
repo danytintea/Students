@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns="http://www.w3.org/1999/html"
+  xmlns:th="http://www.w3.org/1999/xhtml"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Majors</title>
+    <link rel="icon" type="image/png" th:href="@{/favicon-1.png}" />
+
+    <!-- Libraries Stylesheet -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{bootstrap/css/bootstrap.css}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{bootstrap/css/bootstrap.min.css}"
+    />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{elearning/css/style.css}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{elearning/css/bootstrap.min.css}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{elearning/lib/animate/animate.min.css}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{elearning/lib/owlcarousel/assets/owl.carousel.min.css}"
+    />
+
+    <!-- CSS to modify the bootstrap -->
+    <link rel="stylesheet" th:href="@{stylesheet.css}" />
+
+    <!-- Icon Font Stylesheet -->
+    <link
+      type="text/css"
+      th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css}"
+      rel="stylesheet"
+    />
+    <link
+      type="text/css"
+      th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css}"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Navbar Start -->
+    <nav
+      class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0"
+    >
+      <a
+        href="index.html"
+        class="navbar-brand d-flex align-items-center px-4 px-lg-5"
+      >
+        <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>MAJORS</h2>
+      </a>
+      <button
+        type="button"
+        class="navbar-toggler me-4"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarCollapse"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav ms-auto p-4 p-lg-0">
+          <a href="home" class="nav-item nav-link">Home</a>
+          <a href="overviewStudent" class="nav-item nav-link">Students</a>
+          <a href="overviewMajor" class="nav-item nav-link active"
+            >Majors</a
+          >
+          <div class="nav-item dropdown">
+            <a
+              href="#"
+              class="nav-link dropdown-toggle"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              >IT Services</a
+            >
+            <div class="dropdown-menu fade-down m-0">
+              <a href="formStudent" class="dropdown-item">Add Student Form</a>
+              <a href="formMajor" class="dropdown-item"
+                >Add Major Form</a
+              >
+            </div>
+          </div>
+          <a href="contact" class="nav-item nav-link" style="margin-right: 1rem"
+            >Contact</a
+          >
+        </div>
+        <a href="login" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block"
+          >Log In<i class="fa fa-arrow-right ms-3"></i
+        ></a>
+      </div>
+    </nav>
+    <!-- Navbar End -->
+
+    <div style="margin: auto; width: 75%; margin-top: 4rem">
+      <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+        <h6 class="section-title bg-white text-center text-primary px-3">Majors</h6>
+      </div>
+
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 1rem;
+        "
+        class="options__container"
+      >
+
+        <p style="flex: 1 1 50%; margin: 0; font-size: 1.4rem; color: #2bc5d4">
+          Click on column to sort
+        </p>
+        <div
+          style="display: flex; flex: 1 1 50%; justify-content: flex-end"
+          class="search__container"
+        >
+          <input
+            id="searchInput"
+            style="width: 50%"
+            type="text"
+            placeholder="Search..."
+          />
+        </div>
+      </div>
+      <table
+        id="majorTable"
+        class="table table-striped table-hover table-bordered"
+        style="table-layout:fixed;"
+      >
+        <thead>
+          <tr>
+            <td>Name</td>
+            <td>University</td>
+            <td>College</td>
+            <td>Office</td>
+            <td>Edit</td>
+            <td>Delete</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="s: ${majors}">
+            <form
+              method="POST"
+              th:action="@{/addMajor}"
+              th:object="${major}"
+            >
+              <td th:id="majorEntity">
+                <input
+                  type="text"
+                  id="notVisibleId"
+                  name="id"
+                  th:value="${s.id}"
+                />
+                <p th:text="${s.name}"></p>
+                <input type="text" name="name" />
+              </td>
+              <td th:id="majorEntity">
+                <p th:text="${s.university}"></p>
+                <input type="text" name="university" />
+              </td>
+              <td th:id="majorEntity">
+                <p th:text="${s.college}"></p>
+                <input type="text" name="college" />
+              </td>
+              <td th:id="majorEntity">
+                <p th:text="${s.office}"></p>
+                <input type="text" name="office" />
+              </td>
+              <td>
+                <button class="btn btn-primary" th:id="edit" type="submit">
+                  Edit
+                </button>
+              </td>
+            </form>
+            <td>
+              <button class="btn btn-danger" type="submit">
+                <a th:href="@{/deleteMajor/{id}(id=${s.id})}">Delete</a>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="container-xxl py-5 category">
+      <div class="container">
+        <div class="row g-3">
+          <div class="col-lg-7 col-md-6">
+            <div class="row g-3">
+              <div
+                class="col-lg-12 col-md-12 wow zoomIn"
+                data-wow-delay="0.1s"
+                style="
+                  visibility: visible;
+                  animation-delay: 0.1s;
+                  animation-name: zoomIn;
+                "
+              >
+                <a class="position-relative d-block overflow-hidden" href="">
+                  <img
+                    class="img-fluid"
+                    th:src="@{elearning/img/cat-1.jpg}"
+                    alt=""
+                  />
+                </a>
+              </div>
+              <div
+                class="col-lg-6 col-md-12 wow zoomIn"
+                data-wow-delay="0.3s"
+                style="
+                  visibility: visible;
+                  animation-delay: 0.3s;
+                  animation-name: zoomIn;
+                "
+              >
+                <a class="position-relative d-block overflow-hidden" href="">
+                  <img
+                    class="img-fluid"
+                    th:src="@{elearning/img/cat-2.jpg}"
+                    alt=""
+                  />
+                </a>
+              </div>
+              <div
+                class="col-lg-6 col-md-12 wow zoomIn"
+                data-wow-delay="0.5s"
+                style="
+                  visibility: visible;
+                  animation-delay: 0.5s;
+                  animation-name: zoomIn;
+                "
+              >
+                <a class="position-relative d-block overflow-hidden" href="">
+                  <img
+                    class="img-fluid"
+                    th:src="@{elearning/img/cat-3.jpg}"
+                    alt=""
+                  />
+                </a>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-lg-5 col-md-6 wow zoomIn"
+            data-wow-delay="0.7s"
+            style="
+              min-height: 350px;
+              visibility: visible;
+              animation-delay: 0.7s;
+              animation-name: zoomIn;
+            "
+          >
+            <a class="position-relative d-block h-100 overflow-hidden" href="">
+              <img
+                class="img-fluid position-absolute w-100 h-100"
+                th:src="@{elearning/img/cat-4.jpg}"
+                alt=""
+                style="object-fit: cover"
+              />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Start-->
+    <div class="footer">
+      <div class="footer__documentation">
+        <h3 class="text__gradient--bg">Documentation</h3>
+        <a href="https://www.w3schools.com/html/">HTML</a>
+        <a href="https://www.w3schools.com/css/">CSS</a>
+        <a href="https://www.javascript.com">Javascript</a>
+        <a href="https://spring.io/projects/spring-boot">Spring</a>
+        <a href="https://start.spring.io/">Spring Initializr</a>
+      </div>
+      <div class="footer__contact">
+        <h3 class="text__gradient--bg">Daniel</h3>
+        <a href="https://www.facebook.com/danielflorin.tintea/">Facebook</a>
+        <a href="https://www.instagram.com/tintea.daniel11/">Instagram</a>
+        <a href="https://wa.me/40733122893">Whatsapp</a>
+      </div>
+      <div class="footer__contact">
+        <h3 class="text__gradient--bg">Robert</h3>
+        <a href="https://www.facebook.com/Jordan163">Facebook</a>
+        <a href="https://www.instagram.com/iordanrobert/">Instagram</a>
+        <a href="https://wa.me/40726820916">Whatsapp</a>
+      </div>
+      <div class="footer__copyrights">
+        <p>Project <a href="https://github.com/IordanRobert/PracticaIBM-SpringBoot">github</a></p>
+        <p>
+          site design / logo ©
+          <a
+            href="https://themewagon.com/themes/elearning-free-bootstrap-5-css3-education-website-template/"
+            >themewagon</a
+          >
+        </p>
+        <p>Practica 2022 @ IBM Romania</p>
+      </div>
+    </div>
+    <!-- Footer End -->
+  </body>
+
+  <!-- JavaScript Libraries -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script th:src="@{elearning/js/main.js}"></script>
+  <script th:src="@{bootstrap/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{elearning/lib/owlcarousel/owl.carousel.min.js}"></script>
+  <script th:src="@{elearning/lib/easing/easing.min.js}"></script>
+  <script th:src="@{elearning/lib/waypoints/waypoints.min.js}"></script>
+  <script th:src="@{elearning/lib/wow/wow.min.js}"></script>
+  <script th:src="@{/scriptOverviewMajor.js}"></script>
+</html>
